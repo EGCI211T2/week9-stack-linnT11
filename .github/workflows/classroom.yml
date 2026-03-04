@@ -1,0 +1,99 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Test1
+      id: test1
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test1
+        setup-command: make compile2
+        command: make test1
+        input: ''
+        expected-output: argv 1 correct
+        comparison-method: contains
+        timeout: 10
+        max-score: 10
+    - name: Test1-2
+      id: test1-2
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test1-2
+        setup-command: 'make compile2 '
+        command: make test1
+        input: ''
+        expected-output: argv 2 incorrect
+        comparison-method: contains
+        timeout: 10
+        max-score: 5
+    - name: Test1-3
+      id: test1-3
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test1-3
+        setup-command: make compile2
+        command: make test1
+        input: ''
+        expected-output: argv 4 incorrect
+        comparison-method: contains
+        timeout: 10
+        max-score: 10
+    - name: test1-5
+      id: test1-5
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: test1-5
+        setup-command: make compile2
+        command: make test1
+        input: ''
+        expected-output: argv 5 incorrect
+        comparison-method: contains
+        timeout: 10
+        max-score: 6
+    - name: Test3
+      id: test3
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test3
+        setup-command: make compile2
+        command: make test3
+        input: ''
+        expected-output: too many open
+        comparison-method: contains
+        timeout: 10
+        max-score: 5
+    - name: Test6
+      id: test6
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Test6
+        setup-command: make compile2
+        command: make test6
+        input: ''
+        expected-output: correct
+        comparison-method: contains
+        timeout: 10
+        max-score: 5
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        TEST1_RESULTS: "${{steps.test1.outputs.result}}"
+        TEST1-2_RESULTS: "${{steps.test1-2.outputs.result}}"
+        TEST1-3_RESULTS: "${{steps.test1-3.outputs.result}}"
+        TEST1-5_RESULTS: "${{steps.test1-5.outputs.result}}"
+        TEST3_RESULTS: "${{steps.test3.outputs.result}}"
+        TEST6_RESULTS: "${{steps.test6.outputs.result}}"
+        SIMPLE-STACK_RESULTS: "${{steps.simple-stack.outputs.result}}"
+      with:
+        runners: test1,test1-2,test1-3,test1-5,test3,test6
