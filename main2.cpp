@@ -6,6 +6,19 @@ using namespace std;
 int main(int argc, char **argv){
     Stack s;
    
+
+    for(int i = 1; i < argc; i++){
+        for(int j = 0; j < strlen(argv[i]); j++){
+          switch(argv[i][j]){
+            case '(':
+              s.push("(");
+              break;
+            case ')':
+             s.pop();
+             break;
+            case 
+
+          }
 /*
   Exercise 2
  printf("Checking the parentheses in argv arguments\n");

@@ -16,29 +16,33 @@ public:
 void Stack::push(int x){
   NodePtr new_node=new NODE(x);
   if(new_node){
-            // Left missing for exercises…
+            new_node->set_next(top);
    }
  
-         // Left missing for exercises…
+         top = new_node;
+  size++;
     
 }
 
-int Stack::pop(){
+char Stack::pop(){
         NodePtr t=top;
-        int value;
+        char value;
         value=t->get_value();
-    // Left missing part for exercises
+        top = top->get_next();
+        size--;
         delete t;
         return value;
-	//be careful of the empty stack!!!
+	
     }
 
 Stack::Stack(){
-    //initialize stack
+    top=NULL;
+    size=0;
     
 }
 Stack::~Stack(){
-    //delete all remaning stack (i.e. pop all) 
+    while(top!=0)
+    pop();
     
 }
 
