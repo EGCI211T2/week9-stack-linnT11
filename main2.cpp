@@ -1,22 +1,61 @@
 #include<iostream>
 using namespace std;
-
+#include <cstring>
 #include "stack.h"
 
 int main(int argc, char **argv){
-    Stack s;
+    
    
 
     for(int i = 1; i < argc; i++){
-        for(int j = 0; j < strlen(argv[i]); j++){
-          switch(argv[i][j]){
+
+      Stack s;
+    
+    bool error = false;
+
+    for(int j = 0; j < strlen(argv[i]); j++){
+        
+        char c = argv[i][j];
+
+        switch(c){
+
             case '(':
-              s.push("(");
-              break;
+            case '{':
+            case '[':
+                s.push(c);   // ✅ correct
+                break;
+
             case ')':
-             s.pop();
-             break;
-            case 
+            case '}':
+            case ']': {
+                char x = s.pop();
+                if(x == '\0'){
+                    error = true;
+                    break;
+                }
+                if( (x == '(' && c != ')') ||
+                    (x == '{' && c != '}') ||
+                    (x == '[' && c != ']') ){
+                    error = true;
+                }
+                break;
+            }
+        }
+
+        if(error) break;
+    }
+
+    
+    if(error){
+        cout << "argv " << i << " incorrect" << endl;
+    }
+    else if(!s.isEmpty()){
+        cout << "argv " << i << " incorrect: too many open parenthesis" << endl;
+    }
+    else{
+        cout << "argv " << i << " correct" << endl;
+    }
+}
 
           }
 /*
@@ -38,5 +77,4 @@ int main(int argc, char **argv){
   */
 
 
-   return 0;
-}
+   

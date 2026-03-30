@@ -5,49 +5,34 @@
 //  Created by Mingmanas Sivaraksa
 //
 
-#ifndef node_h
-#define node_h
-class NODE{
-     int data;
-    NODE *nextPtr;
+#ifndef NODE_H
+#define NODE_H
+
+class NODE {
+    char data;
+    NODE* nextPtr;
+
 public:
-    NODE(int);
-    ~NODE();
-    void set_next(NODE*);
-    NODE* get_next();
-    int get_value();
+    NODE(char x) {
+        data = x;
+        nextPtr = NULL;
+    }
+    void set_next(NODE* t) {
+        nextPtr = t;
+    }
+    NODE* get_next() {
+        return nextPtr;
+    }
+
+    char get_value() {
+        return data;
+    }
+
+    ~NODE() {
+        
+    }
 };
+
 typedef NODE* NodePtr;
-
-
-NODE::NODE(int x){
-    data=x;
-    nextPtr=NULL;
-    //pPtr =NULL; not using doubly
-}
-NODE* NODE::get_next(){
-    return nextPtr;
-
-}
-
-int NODE::get_value(){
-    return data;
-
-}
-
-
-void NODE::set_next(NODE *t){
-     nextPtr=t;
-
-}
-NODE::~NODE(){
-     cout<<"deleting "<<data<<endl;
-
-}
-
-
-
-
-
 
 #endif
